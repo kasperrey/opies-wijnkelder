@@ -1,6 +1,11 @@
-biertjes = ['pils', 'trappist', 'abdijbier', 'geuze', 'duvel', 'guinness']
-eerste_lijst_biertjes = biertjes
-del biertjes
+eerste_lijst_biertjes = {
+    'duvel' : 0,
+    'pils' : 0,
+    'trappist' : 0,
+    'abdijbier' : 0,
+    'geuze' : 0,
+    'guinness' : 0
+    }
 
 from tkinter import *
 import pickle
@@ -13,39 +18,41 @@ class Spel:
         self.tk.resizable(0, 0)
         self.canvas = Canvas(self.tk, width=500, height=500)
 
-def nummer_van(lijst, element):
-    for x in range(0, len(lijst)):
-        if lijst[x] == element:
-            return x
-    return -1
-
 def drink_een_biertje():
-    biertje_naam = input("welk biertje of wijntje ga je drinken?")
     load_file = open('c://Users//Janick//Documents//biertjes.txt', 'rb')
     biertjes = pickle.load(load_file)
     load_file.close()
-    del_biertje = nummer_van(biertjes, biertje_naam)
-    if del_biertje >= 0:
-        del biertjes[del_biertje]
+    for key in biertjes:
+        print( "{}:{}".format( key, biertjes[key] ))
+    biertje_naam = input("welk biertje of wijntje ga je drinken?")
+    if biertjes[biertje_naam] < 0:
+        biertjes[biertje_naam] -= 1
+    else:
+        print('je hebt geen %s meer' % (biertje_naam))
     save_file = open('c://Users//Janick//Documents//biertjes.txt', 'wb')
     pickle.dump(biertjes, save_file)
     save_file.close()
-    tijd_alarm = time.localtime()
-    if tijd_alarm[4] == 00 or tijd_alarm[4] == 24:
-            return True
-
+    
 def zien():
     load_file = open('c://Users//Janick//Documents//biertjes.txt', 'rb')
     loaded_biertjes = pickle.load(load_file)
     load_file.close()
-    print(loaded_biertjes)
-
+    for key in loaded_biertjes:
+        print( "{}:{}".format( key, loaded_biertjes[key] ))
+        
 def koop_een_biertje():
-    gekocht_biertje = input('welk biertje of wijntje heb je gekocht?')
     load_file = open('c://Users//Janick//Documents//biertjes.txt', 'rb')
     biertjes = pickle.load(load_file)
     load_file.close()
-    biertjes.append(gekocht_biertje)
+    for key in biertjes:
+        print( "{}:{}".format( key, biertjes[key] ))
+    gekocht_biertje = input('welk biertje of wijntje heb je gekocht?')
+    if gekocht_biertje in biertjes.keys():
+        biertjes[gekocht_biertje] = 1
+    else:
+        biertjes[gekocht_biertje] += 1
+    for key in biertjes:
+        print( "{}:{}".format( key, biertjes[key] ))
     save_file = open('c://Users//Janick//Documents//biertjes.txt', 'wb')
     pickle.dump(biertjes, save_file)
     save_file.close
