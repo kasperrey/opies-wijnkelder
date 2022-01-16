@@ -6,10 +6,11 @@ eerste_lijst_biertjes = {
     'geuze' : 0,
     'guinness' : 0
     }
-
+biertjes_per_dag = 0
 from tkinter import *
 import pickle
 import time
+import os
 
 class Doek:
     def __init__(self):
@@ -23,13 +24,13 @@ def print_biertjes(biertjes):
         print( "{}:{}".format( key, biertjes[key] ))
 
 def load_biertjes():
-    load_file = open('c://Users//Janic//Documents//biertjes.txt', 'rb')
+    load_file = open(os.path.expanduser('~') + '//Documents//biertjes.txt', 'rb')
     biertjes = pickle.load(load_file)
     load_file.close()
     return biertjes
 
 def save_biertjes(biertjes):
-    save_file = open('c://Users//Janic//Documents//biertjes.txt', 'wb')
+    save_file = open(os.path.expanduser('~') + '//Documents//biertjes.txt', 'wb')
     pickle.dump(biertjes, save_file)
     save_file.close()
 
@@ -52,8 +53,6 @@ def koop_een_biertje():
     print_biertjes(biertjes)
     gekocht_biertje = input('welk biertje of wijntje heb je gekocht?')
     if gekocht_biertje in biertjes.keys():
-        biertjes[gekocht_biertje] = 1
-    else:
         biertjes[gekocht_biertje] += 1
     print_biertjes(biertjes)
     save_biertjes(biertjes)
