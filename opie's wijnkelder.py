@@ -1,9 +1,11 @@
 import pickle
+
 def nummer_van(lijst, element):
     for x in range(0, len(lijst)):
         if lijst[x] == element:
             return x
     return -1
+
 def drink_een_biertje():
     biertje_naam = input("welk biertje of wijntje ga je drinken?")
     load_file = open('c://Users//Janick//Documents//biertjes.txt', 'rb')

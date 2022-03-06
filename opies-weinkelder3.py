@@ -6,22 +6,31 @@ eerste_lijst_biertjes = {
     'geuze' : 0,
     'guinness' : 0
     }
+
 biertjes_per_dag = 0
+
 from tkinter import *
 import pickle
 import time
 import os
 
+if not os.path.exists(os.path.expanduser('~') + '//Documents//biertjes.txt'):
+    save_file = open(os.path.expanduser('~') + '//Documents//biertjes.txt', 'wb')
+    pickle.dump(eerste_lijst_biertjes, save_file)
+    save_file.close()
+
 class Doek:
     def __init__(self):
         self.tk = Tk()
         self.tk.title("opi's wijnkelder")
-        self.tk.resizable(0, 0)
+        self.tk.resizable(False, False)
         self.canvas = Canvas(self.tk, width=500, height=500)
+
 
 def print_biertjes(biertjes):
     for key in biertjes:
-        print( "{}:{}".format( key, biertjes[key] ))
+        print("{}:{}".format(key, biertjes[key]))
+
 
 def load_biertjes():
     load_file = open(os.path.expanduser('~') + '//Documents//biertjes.txt', 'rb')
@@ -29,10 +38,12 @@ def load_biertjes():
     load_file.close()
     return biertjes
 
+
 def save_biertjes(biertjes):
     save_file = open(os.path.expanduser('~') + '//Documents//biertjes.txt', 'wb')
     pickle.dump(biertjes, save_file)
     save_file.close()
+
 
 def drink_een_biertje():
     biertjes = load_biertjes()
@@ -44,19 +55,24 @@ def drink_een_biertje():
         print('je hebt geen %s meer' % (biertje_naam))
     print_biertjes(biertjes)
     save_biertjes(biertjes)
-    
+
+
 def zien():
     print_biertjes(load_biertjes())
-        
+
+
 def koop_een_biertje():
     biertjes = load_biertjes()
     print_biertjes(biertjes)
     gekocht_biertje = input('welk biertje of wijntje heb je gekocht?')
     if gekocht_biertje in biertjes.keys():
         biertjes[gekocht_biertje] += 1
+    else:
+        biertjes[gekocht_biertje] = 1
     print_biertjes(biertjes)
     save_biertjes(biertjes)
-    
+
+
 doek = Doek()
 
 btn = Button(doek.tk, text="klik hier als je een biertje of wijntje drinkt", command=drink_een_biertje)
@@ -68,3 +84,4 @@ btn.pack()
 btn = Button(doek.tk, text="klik hier als je een biertje of wijntje koopt", command=koop_een_biertje)
 btn.pack()
 
+doek.tk.mainloop()
